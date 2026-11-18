@@ -1,0 +1,694 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#e9dfcc">
+<title>A Little Letter For You | 19.11</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --cream: #eee5d4;
+    --paper: #f8f0df;
+    --dark: #4c3529;
+    --brown: #795b45;
+    --red: #8b3032;
+    --gold: #b39465;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background:
+        radial-gradient(ellipse at 50% 40%, #f5eddf 0%, #e9dfcc 65%, #d8c8ae 100%);
+    color: var(--dark);
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* PAPER TEXTURE */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+    opacity: .22;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+
+/* BACKGROUND DECORATION */
+
+.decor {
+    position: fixed;
+    color: rgba(115, 80, 54, .2);
+    font-family: 'Dancing Script', cursive;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.decor.left {
+    top: 12%;
+    left: 6%;
+    font-size: 35px;
+    transform: rotate(-15deg);
+}
+
+.decor.right {
+    bottom: 12%;
+    right: 6%;
+    font-size: 35px;
+    transform: rotate(12deg);
+}
+
+.page {
+    min-height: 100vh;
+    width: 100%;
+    padding: 35px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* HEADER */
+
+.header {
+    text-align: center;
+    margin-bottom: 35px;
+    animation: fadeIn 1.2s ease;
+}
+
+.header .small-title {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--brown);
+    margin-bottom: 12px;
+}
+
+.header h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(35px, 6vw, 55px);
+    font-weight: 500;
+    color: #694536;
+}
+
+.header .subtitle {
+    margin-top: 8px;
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-style: italic;
+    color: #92765b;
+}
+
+/* ENVELOPE */
+
+.envelope-area {
+    position: relative;
+    width: min(420px, 90vw);
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 235px;
+    background: #d6c1a1;
+    box-shadow: 0 18px 35px rgba(79, 54, 35, .2);
+    cursor: pointer;
+    transition: transform .5s ease, opacity .7s ease;
+    border-radius: 3px;
+}
+
+.envelope:hover {
+    transform: translateY(-6px);
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(145deg, transparent 49.7%, #c3a986 50%),
+        linear-gradient(215deg, transparent 49.7%, #e5d2b5 50%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: #dfc9a8;
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: #ead8b9;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform .9s ease;
+    z-index: 5;
+    filter: drop-shadow(0 3px 2px rgba(70, 40, 20, .1));
+}
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #d6bf9d, #cbb28e);
+    clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+    z-index: 4;
+    pointer-events: none;
+}
+
+.seal {
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 53px;
+    height: 53px;
+    background: radial-gradient(circle at 35% 30%, #b34c46, #7e292a 75%);
+    border-radius: 50%;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e9c9a0;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    box-shadow: 0 3px 8px rgba(75, 30, 25, .35);
+    transition: opacity .3s ease, transform .5s ease;
+}
+
+.seal::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(231, 190, 143, .6);
+    border-radius: 50%;
+}
+
+.envelope-label {
+    position: absolute;
+    bottom: 18px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 5;
+    color: #79563b;
+    font-family: 'Dancing Script', cursive;
+    font-size: 21px;
+    pointer-events: none;
+}
+
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .seal {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.3);
+}
+
+.envelope.open {
+    transform: translateY(100px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* HINT */
+
+.hint {
+    margin-top: 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #94795c;
+    text-transform: uppercase;
+    animation: pulse 2s infinite;
+}
+
+/* LETTER OVERLAY */
+
+.letter-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(58, 42, 31, .55);
+    backdrop-filter: blur(5px);
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .6s ease, visibility .6s ease;
+    overflow-y: auto;
+}
+
+.letter-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* LETTER PAPER */
+
+.letter {
+    position: relative;
+    width: min(570px, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 55px 55px 45px;
+    background:
+        linear-gradient(rgba(255,255,255,.12), rgba(160,120,75,.04)),
+        #f6eedf;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.3),
+        inset 0 0 40px rgba(153, 117, 76, .12);
+    border: 1px solid #d8c4a3;
+    transform: translateY(45px) scale(.94);
+    transition: transform .8s cubic-bezier(.2,.8,.2,1);
+    scrollbar-width: thin;
+    scrollbar-color: #bba080 transparent;
+}
+
+.letter-overlay.active .letter {
+    transform: translateY(0) scale(1);
+}
+
+.letter::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(163, 124, 81, .35);
+    pointer-events: none;
+}
+
+.letter-content {
+    position: relative;
+    z-index: 1;
+}
+
+.letter-top {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.letter-top .date {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #987b5c;
+    text-transform: uppercase;
+}
+
+.letter-top .ornament {
+    margin-top: 14px;
+    color: #a98255;
+    font-size: 20px;
+    letter-spacing: 8px;
+}
+
+.greeting {
+    font-family: 'Dancing Script', cursive;
+    font-size: 31px;
+    color: #714b38;
+    margin-bottom: 20px;
+}
+
+.letter-body {
+    font-size: 19px;
+    line-height: 1.85;
+    color: #5c4637;
+    text-align: justify;
+}
+
+.letter-body p {
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.letter-body p.show {
+    animation: textReveal .8s ease forwards;
+}
+
+.signature {
+    margin-top: 28px;
+    text-align: right;
+    opacity: 0;
+}
+
+.signature.show {
+    animation: textReveal 1s ease forwards;
+}
+
+.signature .sign-text {
+    font-size: 16px;
+    font-style: italic;
+    color: #8c7158;
+}
+
+.signature .sign-name {
+    font-family: 'Dancing Script', cursive;
+    font-size: 29px;
+    color: #784b37;
+    margin-top: 7px;
+}
+
+.letter-footer {
+    text-align: center;
+    margin-top: 35px;
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #a68b69;
+}
+
+/* CLOSE BUTTON */
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #c9b394;
+    background: transparent;
+    border-radius: 50%;
+    color: #8c7051;
+    font-size: 20px;
+    cursor: pointer;
+    transition: .3s;
+    z-index: 3;
+}
+
+.close-btn:hover {
+    background: #e9dcc7;
+    transform: rotate(90deg);
+}
+
+/* FOOTER */
+
+.page-footer {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #9b8368;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: .5; }
+    50% { opacity: 1; }
+}
+
+@keyframes textReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .page {
+        padding: 30px 18px 55px;
+    }
+
+    .header {
+        margin-bottom: 20px;
+    }
+
+    .envelope-area {
+        height: 245px;
+    }
+
+    .envelope {
+        height: 195px;
+    }
+
+    .envelope-flap {
+        height: 100px;
+    }
+
+    .letter {
+        padding: 48px 28px 35px;
+        max-height: 85vh;
+    }
+
+    .letter::before {
+        inset: 8px;
+    }
+
+    .letter-body {
+        font-size: 17px;
+        line-height: 1.75;
+    }
+
+    .greeting {
+        font-size: 27px;
+    }
+
+    .decor {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="decor left">With love ♡</div>
+<div class="decor right">19.11</div>
+
+<main class="page">
+
+    <header class="header">
+        <div class="small-title">November 19th · International Men's Day</div>
+        <h1>A Little Letter For You</h1>
+        <p class="subtitle">A little something, just for you.</p>
+    </header>
+
+    <!-- ENVELOPE -->
+
+    <div class="envelope-area">
+        <div class="envelope" id="envelope" onclick="openLetter()">
+
+            <div class="envelope-back"></div>
+
+            <div class="envelope-flap"></div>
+
+            <div class="envelope-front"></div>
+
+            <div class="seal">19</div>
+
+            <div class="envelope-label">
+                To: All the wonderful boys ♡
+            </div>
+
+        </div>
+    </div>
+
+    <div class="hint" id="hint">
+        ✦ Click to open your letter ✦
+    </div>
+
+    <footer class="page-footer">
+        MADE WITH LOVE · 19.11
+    </footer>
+
+</main>
+
+<!-- LETTER -->
+
+<div class="letter-overlay" id="overlay">
+
+    <article class="letter">
+
+        <button class="close-btn" onclick="closeLetter()" aria-label="Close letter">
+            ×
+        </button>
+
+        <div class="letter-content">
+
+            <div class="letter-top">
+                <div class="date">November 19, 2026</div>
+                <div class="ornament">— ✦ —</div>
+            </div>
+
+            <div class="greeting">Dear you,</div>
+
+            <div class="letter-body" id="letterBody">
+
+                <p>
+                    Có lẽ hôm nay sẽ là một ngày bình thường như bao ngày khác,
+                    nhưng tụi mình muốn dành một chút thời gian để gửi đến bạn
+                    một lời chúc thật đặc biệt.
+                </p>
+
+                <p>
+                    Cảm ơn bạn vì đã luôn cố gắng, vì những điều nhỏ bé bạn làm
+                    mỗi ngày, và cả những nỗ lực đôi khi chẳng được ai nhìn thấy.
+                </p>
+
+                <p>
+                    Mong rằng bạn sẽ luôn có đủ dũng khí để theo đuổi điều mình
+                    yêu thích, đủ kiên nhẫn để vượt qua những ngày không dễ dàng
+                    và đủ tự tin để là chính mình.
+                </p>
+
+                <p>
+                    Bạn không cần lúc nào cũng phải mạnh mẽ, cũng chẳng cần
+                    phải trở thành một phiên bản hoàn hảo trong mắt bất kỳ ai.
+                    Đôi khi, được nghỉ ngơi, được sẻ chia và được sống đúng
+                    với cảm xúc của mình cũng đã là một điều tuyệt vời rồi.
+                </p>
+
+                <p>
+                    Chúc bạn có thật nhiều niềm vui, những người bạn tốt,
+                    những cơ hội đáng quý và thật nhiều khoảnh khắc khiến
+                    bạn cảm thấy hạnh phúc khi nhìn lại.
+                </p>
+
+                <p>
+                    Và trên hết, mong bạn luôn nhớ rằng:
+                    <i>You're doing better than you think.</i>
+                </p>
+
+            </div>
+
+            <div class="signature" id="signature">
+                <div class="sign-text">With lots of love,</div>
+                <div class="sign-name">Someone who wishes you well ♡</div>
+            </div>
+
+            <div class="letter-footer">
+                HAPPY INTERNATIONAL MEN'S DAY
+                <br><br>
+                ✦ 19 · 11 · 2026 ✦
+            </div>
+
+        </div>
+
+    </article>
+
+</div>
+
+<script>
+const envelope = document.getElementById("envelope");
+const overlay = document.getElementById("overlay");
+const hint = document.getElementById("hint");
+const paragraphs = document.querySelectorAll("#letterBody p");
+const signature = document.getElementById("signature");
+
+let animationTimers = [];
+
+function clearLetterAnimation() {
+    animationTimers.forEach(timer => clearTimeout(timer));
+    animationTimers = [];
+}
+
+function openLetter() {
+    if (overlay.classList.contains("active")) return;
+
+    envelope.classList.add("open");
+    hint.style.opacity = "0";
+
+    const openTimer = setTimeout(() => {
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+
+        paragraphs.forEach(p => p.classList.remove("show"));
+        signature.classList.remove("show");
+
+        clearLetterAnimation();
+
+        paragraphs.forEach((p, index) => {
+            const timer = setTimeout(() => {
+                p.classList.add("show");
+            }, 700 + index * 900);
+
+            animationTimers.push(timer);
+        });
+
+        const signatureTimer = setTimeout(() => {
+            signature.classList.add("show");
+        }, 700 + paragraphs.length * 900);
+
+        animationTimers.push(signatureTimer);
+
+    }, 650);
+
+    animationTimers.push(openTimer);
+}
+
+function closeLetter() {
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+
+    clearLetterAnimation();
+
+    setTimeout(() => {
+        envelope.classList.remove("open");
+        hint.style.opacity = "1";
+    }, 500);
+}
+
+// Click outside letter to close
+overlay.addEventListener("click", function(event) {
+    if (event.target === overlay) {
+        closeLetter();
+    }
+});
+
+// ESC key to close
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape" && overlay.classList.contains("active")) {
+        closeLetter();
+    }
+});
+</script>
+
+</body>
+</html>
